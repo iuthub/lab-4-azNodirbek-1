@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+ "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Music Viewer</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<link href="viewer.css" type="text/css" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="header">
+
+			<h1>190M Music Playlist Viewer</h1>
+			<h2>Search Through Your Playlists and Music</h2>
+		</div>
+
+
+		<div id="listarea">
+			<ul id="musiclist">
+				<?php 
+          $files = glob("songs/*.mp3");
+          foreach($files as $file){
+            $filename = basename($file);
+        ?>
+          
+          <li class="mp3item">
+            <a href="<?= $file ?>"> <?= $filename ?> </a> <?php 
+            if(filesize($file)<1024){
+              $fs = filesize($file);
+              print "{$fs} b";
+            }
+            else{
+              $fs = round(filesize($file)/(1024*1024), 2);
+              print "{$fs} mb";
+            }
+            
+            ?> 
+          </li>
+        <?php } ?>
+<!-- ***************************************************************** -->
+        <?php 
+          $files_txt = glob("songs/*.txt");
+          foreach($files_txt as $file_txt){
+            $file_txt_name = basename($file_txt);
+        ?>
+          
+          <li class="playlistitem">
+            <a href="music.php?playlist=<?= $file_txt ?>"> <?= $file_txt_name ?> </a>
+          </li>
+
+        <?php } ?>
+
+<!-- ***************************************************************** -->
+			</ul>
+		</div>
+	</body>
+</html>
